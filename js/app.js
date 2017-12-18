@@ -14,8 +14,8 @@ var Enemy = function(x,y) {
 Enemy.prototype.update = function(dt) {
     // 你应该给每一次的移动都乘以 dt 参数，以此来保证游戏在所有的电脑上
     // 都是以同样的速度运行的
-	//console.log(dt);
-	this.x += (dt+Math.random()/10)*101;
+	//console.log(this.x+' '+this.y);
+	this.x += (dt+Math.random()/100)*101;
 	var rand_col; 
 
 	if(this.x > 505)
@@ -53,6 +53,8 @@ var Player = function() {
 	this.sprite = 'images/char-boy.png';
 	this.x = 2*101;
 	this.y = 5*83-20;
+	this.died = 0;
+	this.win = 0;
 }
 
 Player.prototype.update = function() {
@@ -63,7 +65,8 @@ Player.prototype.update = function() {
 	if(this.y > 5*83)
 		this.y = 5*83-20;
 	if(this.y < 0)
-		this.y = 0;
+		this.y = -20;
+	//console.log(this.x+' '+this.y);
 };
 
 Player.prototype.render = function() {
@@ -71,7 +74,7 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(key) {
-	console.log(key);
+	//console.log(key);
 	switch(key)
 	{
 		case 'left':
@@ -114,5 +117,24 @@ document.addEventListener('keyup', function(e) {
 function checkCollisions()
 {
 	
+	allEnemies.forEach(function(enemy) {
+        if(enemy.y === player.y)
+		{
+			if(Math.abs(enemy.x-player.x) < 50)
+			{
+				player.died++;
+				console.log('died '+player.died);
+				player.x = 2*101;
+				player.y = 5*83-20;				
+			}
+		}
+    });
 	
+	if(player.y < 0)//in the river
+	{
+		player.x = 2*101;
+		player.y = 5*83-20;		
+		player.win++;
+		console.log('win '+player.win);
+	}
 }
