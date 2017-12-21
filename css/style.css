@@ -1,3 +1,16 @@
 body {
     text-align: center;
 }
+
+div.win{
+	position:relative;
+	text-align: left;
+	top:200px;
+	font-size: 66px;
+}
+
+div.num{
+	position:relative;
+	text-align: left;
+	top:230px;
+}
